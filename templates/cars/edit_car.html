@@ -8,32 +8,36 @@
 <hr>
 <div class="card">
     <div class="card-header bg-success text-white">
-        <h3>เพิ่มข้อมูลรถ</h3>
+        <h3>แก้ไขข้อมูลรถ</h3>
     </div>
     <div class="card-body"></div>
+    
+<form method="post"></form>
+  <div class="mb-3">
+    <label for="id" class="form-label"> id </label>
+    <input value="{{ car.id }}" type="text" class="form-control" id="id">
+  </div>
             
-<form method="post">
   <div class="mb-3">
     <label for="brand" class="form-label">Brand</label>
-    <input name="brand" type="text" class="form-control" id="brand">
-  </div>
-  
+    <input value="{{ car.brand }}" type="text" class="form-control" id="brandiddiv">
+
   <div class="mb-3">
     <label for="model" class="form-label">Model</label>
-    <input name="model" type="text" class="form-control" id="model">
+    <input value="{{ car.model }}"  type="text" class="form-control" id="model">
   </div>
 
   <div class="mb-3">
     <label for="year" class="form-label">Year</label>
-    <input name="year" type="text" class="form-control" id="year">
+    <input value="{{ car.year }}" type="text" class="form-control" id="year">
   </div>
   <div class="mb-3">
     <label for="price" class="form-label">Price</label>
-    <input name="price" type="text" class="form-control" id="price">
+    <input value="{{ car.price }}" type="text" class="form-control" id="price">
   </div>
 
   <button type="submit" class="btn btn-outline-success">
-    <i class="bi bi-car-front"></i> Add New Car
+    <i class="bi bi-pen"></i> Update Car
   </button>
 </form>
 </div>

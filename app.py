@@ -13,13 +13,22 @@ care = [
 def index():
     return render_template("index.html", title="HOME PAGE")
 
-@app.route('/cars')
+@app.route('/cars', methods=['GET', 'POST'])
 def call_cars():
-    return render_template(
-        'cars/cars.html',
-        title='Show All Cars Page',
-        cars=care
-    )
+  if request.method == 'POST':
+    brand = request.form['brand']
+    tmp_cars = []
+    for car in care:
+      if brand in car['brand']:
+        tmp_cars.append(car)
+    # cars = tmp_cars
+    return render_template('cars/cars.html', 
+                         title='Search Cars Page',
+                         cars=tmp_cars)
+  
+  return render_template('cars/cars.html', 
+                         title='Show All Cars Page',
+                         cars=care)
 
 @app.route('/cars/new', methods=['GET', 'POST'])
 def new_car():
@@ -57,7 +66,27 @@ def delete_car(id):
     flash(f'Car with ID {id} has been deleted.', 'success')
     return redirect(url_for('call_cars'))
 
-@app.route('/cars/<int:id>/edit')
+@app.route('/cars/<int:id>/edit', methods=['GET', 'POST'])
 def edit_car(id):
+  for c in care:
+    if id == c['id']:
+      car = c
+      break
+  if request.method == 'POST':
+    brand = request.form['brand']
+    model = request.form['model']
+    year = int(request.form['year'])
+    price = int(request.form['price'])
 
-    return render_template('cars/edit_cars.html',title='Edit Car Page')
+    for c in care:
+      if id == c['id']:
+        c['brand'] = brand
+        c['model'] = model
+        c['year'] = year
+        c['price'] = price
+        break
+    
+    flash('Update Car Successfull.', 'success')
+    return redirect(url_for('call_cars'))
+
+  return render_template('cars/edit_car.html', title='Edit Car Page', car=car)

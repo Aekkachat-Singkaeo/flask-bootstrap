@@ -1,45 +1,61 @@
 {% extends 'layout.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+
 
 {% block content %}
-<div class="container mt-4">
-<h1>{{ title }}</h1>
-<table class="table table-striped">
-
+  <div class="container">
+    <h1>{{title}}</h1>
+    <hr>
     <div class="row">
-    <div class="col"></div>
-    <div class="col">
-    <a href ="{{ url_for('new_car') }}"  class="btn btn-outline-success float-end">
-        <i class="bi bi-car-front"></i>  New Car
-
-    </a>
+      <div class="col">
+        <form method="post">
+          <div class="input-group mb-3">
+            <input name="brand" type="text" class="form-control" placeholder="Search by Car's Brand" aria-label="Recipient’s username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-success" type="submit" id="button-addon2">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="col">
+        <a href="{{url_for('new_car')}}" class="btn btn-outline-success float-end">
+          <i class="bi bi-car-front"></i>
+          New Car
+        </a>
+      </div>
     </div>
-
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Brand</th>
-      <th scope="col">Model</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Brand</th>
+          <th scope="col">Model</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for car in cars %}
-        <tr>  
-            <th scope="row">{{ loop.index }}</th>
-            <td>{{ car.brand }}</td>
-            <td>{{ car.model }}</td>
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{car.brand}}</td>
+            <td>{{car.model}}</td>
             <td>
-              <a href="{{ url_for('edit_car', id=car.id) }}" class="btn btn-outline-success btn-sm"title="Edit car">
-              Edit <i class="bi bi-pen"></i>
+              <a href="{{url_for('edit_car', id=car.id)}}" class="btn btn-outline-success btn-sm" title="Edit Car">
+                <i class="bi bi-pencil-square"></i>
               </a>
-              <a href="{{ url_for('delete_car', id=car.id) }}" class="btn btn-outline-danger btn-sm"title="Delete car">
-              Delete <i class="bi bi-x-circle"></i>
+              <a href="{{url_for('delete_car', id=car.id)}}" class="btn btn-outline-danger btn-sm" title="Delete Car">
+                <i class="bi bi-x-lg"></i>
               </a>
             </td>
-        </tr>
+          </tr>
         {% endfor %}
-  </tbody>
-</table>
+        
+        
+        
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
