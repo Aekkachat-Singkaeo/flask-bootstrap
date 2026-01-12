@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request,redirect,url_for
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-care=[
-    {'id':1,'brand' :'Toyota','model':'Yaris Ativ','year':1945,'price':559000},
-    {'id':2,'brand' :'Honda','model':'City Hatcback','year':1945,'price':689000},
-    {'id':3,'brand' :'Nissan','model':'Amera','year':2005,'price':799000},
+care = [
+    {'id': 1, 'brand': 'Toyota', 'model': 'Yaris Ativ', 'year': 1945, 'price': 559000},
+    {'id': 2, 'brand': 'Honda', 'model': 'City Hatchback', 'year': 1945, 'price': 689000},
+    {'id': 3, 'brand': 'Nissan', 'model': 'Amera', 'year': 2005, 'price': 799000},
 ]
 
 @app.route("/")
@@ -14,22 +14,36 @@ def index():
 
 @app.route('/cars')
 def call_cars():
-    return render_template('cars/cars.html', title='Show All Cars Page', cars=care)
+    return render_template(
+        'cars/cars.html',
+        title='Show All Cars Page',
+        cars=care
+    )
 
 @app.route('/cars/new', methods=['GET', 'POST'])
 def new_car():
     if request.method == 'POST':
         brand = request.form['brand']
         model = request.form['model']
-        year = (request.form['year'])
-        price = (request.form['price'])
-    length = len(care)
-    id = length + 1
+        year = int(request.form['year'])
+        price = int(request.form['price'])
 
-    car = {'id': id, 'brand': brand, 'model': model, 'year': year, 'price': price}
+        new_id = len(care) + 1
 
-    care.append(car)
+        car = {
+            'id': new_id,
+            'brand': brand,
+            'model': model,
+            'year': year,
+            'price': price
+        }
 
-    return redirect(url_for('call_cars'))
+        care.append(car)
 
- return render_template('cars/new_cars.html', title='New Car Page')
+        return redirect(url_for('call_cars'))
+
+    # กรณี GET
+    return render_template(
+        'cars/new_cars.html',
+        title='New Car Page'
+    )
