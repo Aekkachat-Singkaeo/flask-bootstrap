@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask,flash, render_template, request, redirect, url_for
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = b'secretkey'   
 
 care = [
     {'id': 1, 'brand': 'Toyota', 'model': 'Yaris Ativ', 'year': 1945, 'price': 559000},
@@ -39,11 +40,24 @@ def new_car():
         }
 
         care.append(car)
-
+        flash(f'New car {brand} {model} has been added.', 'success')
         return redirect(url_for('call_cars'))
 
-    # กรณี GET
+   
     return render_template(
         'cars/new_cars.html',
         title='New Car Page'
     )
+@app.route('/cars/<int:id>/delete')
+def delete_car(id):
+    for car in care:
+        if id == car['id']:
+            care.remove(car)
+            break  
+    flash(f'Car with ID {id} has been deleted.', 'success')
+    return redirect(url_for('call_cars'))
+
+@app.route('/cars/<int:id>/edit')
+def edit_car(id):
+
+    return render_template('cars/edit_cars.html',title='Edit Car Page')
