@@ -17,9 +17,9 @@ def index():
 def call_cars():
   if request.method == 'POST':
     brand = request.form['brand']
-    tmp_cars = []
-    for car in care:
-      if brand in car['brand']:
+    tmp_cars = [] 
+    for car in care: 
+      if brand.casefold() in car['brand'].casefold():
         tmp_cars.append(car)
     # cars = tmp_cars
     return render_template('cars/cars.html', 
